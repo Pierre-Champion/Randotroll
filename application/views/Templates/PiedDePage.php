@@ -1,3 +1,3 @@
-&copy;LolCAMwa
+&copy;LolCAmwa
 </body>
 </html>

@@ -1,1 +1,1 @@
-<h1 class="main">Bijour</h1>
+<h1 class="main">Bijoul</h1>
