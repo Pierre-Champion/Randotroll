@@ -36,7 +36,7 @@
               </li>';
             }
             else {
-              echo '<li class="active"><a href="SeConnecter">Se connecter</a></li>';
+              echo '<li class="active"><a href="./SeConnecter">Se connecter</a></li>';
               /*echo '<li class="nav-item active">
               <a class="nav-link" href="#" data-toggle="modal" data-target="#myModal">
               Se connecter

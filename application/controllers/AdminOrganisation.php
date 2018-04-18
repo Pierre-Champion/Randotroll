@@ -1,33 +1,38 @@
 <?php
     class AdminOrganisation extends CI_Controller {
+        
+        public function __construct() {
+            
+            parent::__construct();
+            $this->load->helper('form');
+            $this->load->model('ModeleAdminOrganisation');
+        }
 
         public function ajouterContributeur() {
-
-            $this->load->helper('form');
 
             if($this->input->post('btnAjouter')) {
 
                 $donneesAInserer = array(
-                    'cNom' => $this->input->post('txtNom'),
-                    'cPrenom' => $this->input->post('txtPrenom'),
-                    'cEmail' => $this->input->post('txtEmail'),
-                    'cTelPortable' => $this->input->post('txtTelPortable'),
-                    'cTelFixe' => $this->input->post('txtTelFixeNom'),
-                    'cAdresse' => $this->input->post('txtAdresse'),
-                    'cCodePostal' => $this->input->post('txtCodePostal'),
-                    'cVille' => $this->input->post('txtVille')
+                    'NOM' => $this->input->post('txtNom'),
+                    'PRENOM' => $this->input->post('txtPrenom'),
+                    'EMAIL' => $this->input->post('txtEmail'),
+                    'TELPORTABLE' => $this->input->post('txtTelPortable'),
+                    'TELFIXE' => $this->input->post('txtTelFixe'),
+                    'ADRESSE' => $this->input->post('txtAdresse'),
+                    'CODEPOSTAL' => $this->input->post('txtCodePostal'),
+                    'VILLE' => $this->input->post('txtVille')
                 );
 
-                $this->ModeleAdminOraganisation->insererUnContributeur($donneesAInserer);
-                $this->load->helper('url');
-                $this->load->view('AdminOraganisation/insertionReussie', $data, FALSE);
+                $this->ModeleAdminOrganisation->insererUnContributeur($donneesAInserer);
+                $this->load->view('Templates/Entete');
+                $this->load->view('AdminOrganisation/insertionReussie');
+                $this->load->view('Templates/PiedDePage');
                 
             } else {
 
                 $this->load->view('Templates/Entete');
                 $this->load->view('adminOrganisation/ajouterContributeur');
                 $this->load->view('Templates/PiedDePage');
-                
             }
                         
         }
