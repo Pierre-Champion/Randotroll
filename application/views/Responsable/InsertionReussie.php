@@ -1,0 +1,1 @@
+Inscription réussie. Veuillez vous connecter en utilisant votre adresse mail et votre mot de passe.

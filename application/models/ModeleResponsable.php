@@ -4,21 +4,36 @@ public function __construct()
 {
 $this->load->database();
 } // __construct
-public function existe($pUtilisateur) // non utilisée retour 1 si connecté, 0 sinon
+public function existe($pResponsable) // non utilisée retour 1 si connecté, 0 sinon
 {
-   $this->db->where($pUtilisateur);
-   $this->db->from('tabutilisateur');
+   $this->db->where($pResponsable);
+   $this->db->from('Responsable');
    return $this->db->count_all_results(); // nombre de ligne retournées par la requeête
 } // existe
-public function retournerUtilisateur($pUtilisateur)
+public function retournerResponsable($pResponsable)
 {
-   $requete = $this->db->get_where('tabutilisateur',$pUtilisateur);
+   $requete = $this->db->get_where('Responsable',$pResponsable);
    return $requete->row(); // retour d'une seule ligne !
    // retour sous forme d'objets
 } // retournerUtilisateur
-public function CreerCompte($pUtilisateur)
+public function CreerComptePart($DPart)
 {
-    $this->db->insert('responsable', $pUtilisateur);
-    return $requete->row();
+    $this->db->insert('participant', $DPart);
+    $InsertId=$this->db->insert_id();
+    return $InsertId;
 }
+public function CreerCompte($Donnees)
+{
+    $DPart=$Donnees['DonneesParticipant'];
+    $DResp=$Donnees['DonneesResponsable'];
+    $NoPart= $this->CreerComptePart($DPart);
+    $data = array(
+        'NOPARTICIPANT'=>$NoPart,
+        'MAIL'=> $DResp['MAIL'],
+        'TELPORTABLE'=> $DResp['TELPORTABLE'],
+        'MOTDEPASSE'=> $DResp['MOTDEPASSE'],
+    );
+    return $this->db->insert('responsable', $data);
+}
+    
 } // Fin Classe

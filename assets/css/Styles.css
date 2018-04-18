@@ -2,5 +2,10 @@
 {
     border-left : 100px solid #555555;
     border-right : 100px solid #555555;
-    padding: 20px
+    padding: 20px;
+}
+.Footer
+{
+    background-color: black;
+    height: 50px;
 }

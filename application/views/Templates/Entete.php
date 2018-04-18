@@ -11,6 +11,10 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+<?php if ($this->session->all_userdata()===FALSE)
+{
+session_start();
+}?>
 <div class="row">
 <div class="col-sm-12" style="background-color: rgb(50,0,0); height: 51px">
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -20,9 +24,9 @@
     </div>
     <ul class="nav navbar-nav">
     <?php
-    $profil=false;
-    if ($profil!=false)
+    if ($this->session->statut!=null)
     {
+        echo $this->session->statut;
         echo '<li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
           Profil
@@ -30,7 +34,7 @@
         <div class="dropdown-menu">
           <a class="dropdown-item" href="#">Link 1</a>
           <a class="dropdown-item" href="#">Link 2</a>
-          <a class="dropdown-item" href="#">Link 3</a>
+          <a class="dropdown-item" href="deconnexion">Se déconnecter</a>
         </div>
         </li>';
     }
@@ -73,7 +77,7 @@
           </li>';*/
           }
           ?>    
-          <li class="active"><a href="#">Home</a></li>
+          <li class="active"><a href="Accueil">Home</a></li>
           <li><a href="#">Page 1</a></li>
           <li><a href="#">Page 2</a></li>
         </ul>
