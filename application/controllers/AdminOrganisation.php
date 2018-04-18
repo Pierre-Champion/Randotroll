@@ -27,14 +27,20 @@
                 $this->load->view('Templates/Entete');
                 $this->load->view('AdminOrganisation/insertionReussie');
                 $this->load->view('Templates/PiedDePage');
-                
+
             } else {
 
                 $this->load->view('Templates/Entete');
-                $this->load->view('adminOrganisation/ajouterContributeur');
+                $this->load->view('adminOrganisation/Contributeur/ajouterContributeur');
                 $this->load->view('Templates/PiedDePage');
             }
-                        
         }
+
+
+
+
+
+
+
     }
 ?>
