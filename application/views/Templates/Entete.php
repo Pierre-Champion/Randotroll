@@ -32,8 +32,8 @@ session_start();
           Profil
         </a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">Link 1</a>
-          <a class="dropdown-item" href="#">Link 2</a>
+          <a class="dropdown-item" href="#">Link 1</a><br/>
+          <a class="dropdown-item" href="#">Link 2</a><br/>
           <a class="dropdown-item" href="deconnexion">Se déconnecter</a>
         </div>
         </li>';
@@ -46,17 +46,17 @@ session_start();
           Se connecter
         </a>
       
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog">
+              <!-- Modal -->
+              <div class="modal fade" id="myModal" role="dialog">
+              <div class="modal-dialog">
         
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
+              <!-- Modal content-->
+              <div class="modal-content">
+              <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
               <h4 class="modal-title">Modal Header</h4>
-            </div>
-            <div class="modal-body">
+              </div>
+              <div class="modal-body">
               <p>'; echo validation_errors();
               echo form_open('test/connect');
               echo form_label('Identifiant','txtIdentifiant');
@@ -66,34 +66,33 @@ session_start();
               echo form_submit('submit', 'Se connecter');
               echo form_close();
               echo '</p>
-            </div>
-            <div class="modal-footer">
+              </div>
+              <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-          </li>';*/
-          }
+              </div>
+              </div>
+              </div>
+              </div>
+              </li>';*/
+            }
           ?>    
           <li class="active"><a href="Accueil">Home</a></li>
           <li><a href="#">Page 1</a></li>
           <li><a href="#">Page 2</a></li>
         </ul>
-          <form class="navbar-form navbar-left" action="/action_page.php">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search" name="search">
-              <div class="input-group-btn">
-                <button class="btn btn-default" type="submit">
+        <form class="navbar-form navbar-left" action="/action_page.php">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search" name="search">
+            <div class="input-group-btn">
+              <button class="btn btn-default" type="submit">
                 <i class="glyphicon glyphicon-search"></i>
-                </button>
-              </div>
+              </button>
             </div>
-          </form>
-        </div>
-      </nav>
-    </div>
+          </div>
+        </form>
+      </div>
+    </nav>
+  </div>
   </div>
   <div class="row">
     <div class="col-sm-12">

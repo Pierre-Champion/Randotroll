@@ -1,5 +1,5 @@
 <?php
-    class test extends CI_Controller
+    class Responsable extends CI_Controller
     {
         public function __construct()
         {
@@ -10,7 +10,7 @@
             
             $this->load->model('ModeleResponsable');
         }
-        public function Accueil()
+        public function Accueil($DonneesInjectees=null)
         {
             $this->load->view('templates/Entete');
             $this->load->view('Accueil', $DonneesInjectees);
@@ -102,9 +102,7 @@
                         $this->session->Identifiant = $ResponsableRetourne->MAIL;
                         $this->session->statut = 'Responsable';
                         $DonneesInjectees['Identifiant'] = $Responsable['MAIL'];
-                        $this->load->view('templates/Entete');
-                        $this->load->view('Accueil', $DonneesInjectees);
-                        $this->load->view('templates/PiedDePage');
+                        $this->Accueil($DonneesInjectees);
                     }
                     else
                     {    // utilisateur non trouvé on renvoie le formulaire de connexion
@@ -117,9 +115,7 @@
             public function deconnexion()
             {
                 session_destroy();
-                $this->load->view('templates/Entete');
-                $this->load->view('Accueil');
-                $this->load->view('templates/PiedDePage');
+                $this->Accueil();
             }
     }
     

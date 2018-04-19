@@ -1,6 +1,6 @@
 <?php 
               echo validation_errors();
-              echo form_open('test/CreerCompte');
+              echo form_open('Responsable/CreerCompte');
               echo form_label('Nom','txtNom');
               echo '<br>';
               echo form_input('txtNom', set_value('txtNom'));
