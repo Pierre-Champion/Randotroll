@@ -52,8 +52,18 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-1"> <?php echo form_radio(array('name'=>'btnRadio')) ?></div>
-        <div class="col-sm-2"> <?php echo form_radio() ?></div>
+        <?php $data = array(
+            'name'        => 'Benevole',
+            'value'       => '1',
+            'checked'     => TRUE); ?>
+        <div class="col-sm-1"> <?php echo form_radio('var', '1', TRUE); ?> Bénévole</div>
+
+        <?php $data = array(
+            'name'        => 'ApporteurSponsor',
+            'value'       => '1',
+            'checked'     => TRUE); ?>
+        <div class="col-sm-2"> <?php echo form_radio('var', '1', TRUE); ?> Apporteur de Sponsor</div>
+
         <div class="col-sm-9"></div> 
     </div><br>
 
