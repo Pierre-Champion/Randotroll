@@ -22,22 +22,24 @@
                     'CODEPOSTAL' => $this->input->post('txtCodePostal'),
                     'VILLE' => $this->input->post('txtVille')
                 );
-                
-                if($this->input->post('rbtnBenevole')) {
-                    $this->load->view('Templates/Entete');
-                    $this->load->view('AdminOrganisation/insertionReussie');
-                    $this->load->view('Templates/PiedDePage');
 
-                } else if ($this->input->post('rbtnApporteurSponsor')) {
+                //$this->ModeleAdminOrganisation->insererUnContributeur($donneesAInserer);
+                
+                if($this->input->post('rbtnType')=='Benevole') {
                     $this->load->view('Templates/Entete');
                     $this->load->view('AdminOrganisation/insertionReussie');
+                    var_dump($this->input->post('rbtnType'));
+                    $this->load->view('Templates/PiedDePage');
+                    
+                } else if ($this->input->post('rbtnType')=='ApporteurSponsor') {
+                    $this->load->view('Templates/Entete');
+                    $this->load->view('Responsable/seConnecter');
                     $this->load->view('Templates/PiedDePage');
 
                 } else {
-                    //$this->ModeleAdminOrganisation->insererUnContributeur($donneesAInserer);
-                    //$this->load->view('Templates/Entete');
-                    //$this->load->view('AdminOrganisation/insertionReussie');
-                    //$this->load->view('Templates/PiedDePage');
+                    $this->load->view('Templates/Entete');
+                    $this->load->view('AdminOrganisation/insertionReussie');
+                    $this->load->view('Templates/PiedDePage');
                 }
 
             } else {
