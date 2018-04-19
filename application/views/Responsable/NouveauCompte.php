@@ -1,6 +1,6 @@
 <?php 
               echo validation_errors();
-              echo form_open('test/CreerCompte');
+              echo form_open('Responsable/CreerCompte');
               echo form_label('Nom','txtNom');
               echo '<br>';
               echo form_input('txtNom', set_value('txtNom'));
@@ -9,8 +9,10 @@
               echo '<br>';
               echo form_input('txtPrenom', set_value('txtPrenom'));
               echo '<br><br>';
-              echo form_radio('gender', 'H', ''.set_radio('gender', 'H'))."Homme ";
-              echo form_radio('gender', 'F', ''.set_radio('gender', 'F'))."Femme ";
+              echo form_label('Sexe','rdbtnSexe');
+              echo '<br>';
+              echo form_radio('rdbtnSexe', 'H', ''.set_radio('rdbtnSexe', 'H'))."Homme ";
+              echo form_radio('rdbtnSexe', 'F', ''.set_radio('rdbtnSexe', 'F'))."Femme ";
               echo '<br><br>';
               echo form_label('Date de naissance','txtDateNaiss');
               echo '<br>';
@@ -28,7 +30,6 @@
               echo '<br>';
               echo form_password('txtMotDePasse', set_value('txtMotDePasse'));
               echo '<br>';
-              echo form_submit('submit', 'Se connecter');
+              echo form_submit('submit', 'Créer un compte');
               echo form_close();
-              echo anchor('CreerCompte', 'Créer un nouveau compte');
-              ?>
+?>

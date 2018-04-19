@@ -1,6 +1,6 @@
               <?php 
               echo validation_errors();
-              echo form_open('test/SeConnecter');
+              echo form_open('Responsable/SeConnecter');
               echo form_label('Mail','txtMail');
               echo '<br>';
               echo form_input('txtMail', set_value('txtMail'));
