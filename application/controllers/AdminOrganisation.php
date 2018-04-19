@@ -23,17 +23,16 @@
                     'VILLE' => $this->input->post('txtVille')
                 );
 
-                //$this->ModeleAdminOrganisation->insererUnContributeur($donneesAInserer);
+                $DonneesInjectees['idContributeur'] = $this->ModeleAdminOrganisation->insererUnContributeur($donneesAInserer);
                 
                 if($this->input->post('rbtnType')=='Benevole') {
                     $this->load->view('Templates/Entete');
-                    $this->load->view('AdminOrganisation/insertionReussie');
-                    var_dump($this->input->post('rbtnType'));
+                    //$this->load->view('AdminOrganisation/insertionReussie', $DonneesInjectees);
                     $this->load->view('Templates/PiedDePage');
                     
                 } else if ($this->input->post('rbtnType')=='ApporteurSponsor') {
                     $this->load->view('Templates/Entete');
-                    $this->load->view('Responsable/seConnecter');
+                    //$this->load->view('Responsable/seConnecter', $DonneesInjectees);
                     $this->load->view('Templates/PiedDePage');
 
                 } else {
@@ -51,7 +50,10 @@
         }
 
 
+        public function ajouterBenevole() {
 
+            
+        }
 
 
 
