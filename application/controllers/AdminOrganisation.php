@@ -49,11 +49,22 @@
             }
         }
 
+        public function ajouterBenevole() {
 
+            if($this->input->post('btnAjouter')) {
 
+                $donneesAInserer = array(
+                    'NOCONTRIBUTEUR' => $this->input->post('txtNom'));
 
-
-
-
+                $DonneesInjectees['idContributeur'] = $this->ModeleAdminOrganisation->insererUnContributeur($donneesAInserer);
+                
+                if($this->input->post('rbtnType')=='Benevole') {
+                    $this->load->view('Templates/Entete');
+                    $this->load->view('AdminOrganisation/Contributeur/ajouterBenevole');
+                    $this->load->view('Templates/PiedDePage');
+                    
+                }
+            }
+        }
     }
 ?>

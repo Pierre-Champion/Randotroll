@@ -5,7 +5,7 @@
    
     <div class="row">
         <div class="col-sm-1"><?php echo form_label('Commission', 'lblNom').'<br>'; ?> </div>
-        <div class="col-sm-1"> <?php echo form_input('txtNom', '', array('pattern' => '[A-Za-zÀ-ÿ](([-]?[a-zA-ZÀ-ÿ]+)*)', 'required' => 'required', 'title' => 'Saisir un nom valide.')).'<br>'; ?> </div>
+        <div class="col-sm-1"> <?php echo form_input('txtNom', '', array('pattern' => '[A-Za-zÀ-ÿ](([-]?[a-zA-ZÀ-ÿ]+)*)', 'required' => 'required', 'title' => 'Saisir une contribution valide.', 'placeholder' => 'Entrer 0 si nulle.')).'<br>'; ?> </div>
         <div class="col-sm-10"></div>
     </div>
     <br>
