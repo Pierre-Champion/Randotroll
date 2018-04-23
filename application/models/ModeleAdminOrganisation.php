@@ -8,8 +8,7 @@
 
         public function insererUnContributeur($pDonneesAInserer) {
         
-            $this->db->insert('contributeur',$pDonneesAInserer);
-            return $this->db->insert_id();
+            return $this->db->insert('contributeur',$pDonneesAInserer);
         }
     }
 ?>

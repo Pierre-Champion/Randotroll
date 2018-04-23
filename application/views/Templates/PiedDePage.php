@@ -1,7 +1,9 @@
-</div></div></div>
-<div class="row Footer">
+</div></div>
+<div class="row">
     <div class="col-sm-12">
-        &copy;LolCAmwa
+        <div class="Footer">
+            &copy;LolCAmwa
+        </div>
     </div>
 </div>
 </body>

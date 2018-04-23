@@ -1,6 +1,6 @@
               <?php 
               echo validation_errors();
-              echo form_open('Responsable/SeConnecter');
+              echo form_open('Visiteur/SeConnecterResponsable');
               echo form_label('Mail','txtMail');
               echo '<br>';
               echo form_input('txtMail', set_value('txtMail'));
@@ -11,5 +11,5 @@
               echo '<br>';
               echo form_submit('submit', 'Se connecter');
               echo form_close();
-              echo '<a href="CreerCompte">Creer un nouveau compte</a>';
+              echo '<a href="CreerCompteResponsable">Creer un nouveau compte</a>';
               ?>

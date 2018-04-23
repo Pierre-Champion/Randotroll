@@ -1,6 +1,6 @@
 <?php 
               echo validation_errors();
-              echo form_open('Responsable/CreerCompte');
+              echo form_open('Visiteur/CreerCompteResponsable');
               echo form_label('Nom','txtNom');
               echo '<br>';
               echo form_input('txtNom', set_value('txtNom'));
@@ -16,7 +16,7 @@
               echo '<br><br>';
               echo form_label('Date de naissance','txtDateNaiss');
               echo '<br>';
-              echo form_input('txtMail', set_value('txtMail'));
+              echo form_input('txtDateNaiss', set_value('txtDateNaiss'));
               echo '<br>';
               echo form_label('Mail','txtMail');
               echo '<br>';
