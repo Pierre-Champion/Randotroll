@@ -27,7 +27,7 @@
                 
                 if($this->input->post('rbtnType')=='Benevole') {
                     $this->load->view('Templates/Entete');
-                    //$this->load->view('AdminOrganisation/insertionReussie', $DonneesInjectees);
+                    $this->load->view('AdminOrganisation/Contributeur/ajouterBenevole');
                     $this->load->view('Templates/PiedDePage');
                     
                 } else if ($this->input->post('rbtnType')=='ApporteurSponsor') {
