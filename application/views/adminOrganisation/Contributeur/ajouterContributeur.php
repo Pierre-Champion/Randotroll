@@ -52,12 +52,8 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-1"> 
-            <?php echo form_radio('rbtnType', 'Benevole'); ?>
-            <?php echo form_label('Bénévole', 'rbtnType').'<br>'; ?></div>
-        <div class="col-sm-2"> 
-            <?php echo form_radio('rbtnType', 'ApporteurSponsor'); ?>
-            <?php echo form_label('Apporteur de Sponsor', 'rbtnType').'<br>'; ?></div>
+        <div class="col-sm-1"> <?php echo form_radio(array('name'=>'btnRadio')) ?></div>
+        <div class="col-sm-2"> <?php echo form_radio() ?></div>
         <div class="col-sm-9"></div> 
     </div><br>
 

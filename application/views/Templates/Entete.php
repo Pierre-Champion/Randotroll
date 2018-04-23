@@ -11,74 +11,44 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<?php if ($this->session->all_userdata()===FALSE)
+<?php if (!isset($this->session))
 {
 session_start();
 }?>
 <div class="row">
 <div class="col-sm-12" style="background-color: rgb(50,0,0); height: 51px">
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed>
   <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">Randotroll</a>
+    <div class="navbar-header dropdown">
+      <a class="navbar-brand dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Randotroll</a>
+      <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">A propos de nous</a></li>
+          <li><a class="dropdown-item" href="#">Nous contacter</a></li>
+        </ul>
     </div>
     <ul class="nav navbar-nav">
     <?php
-    if ($this->session->statut!=null)
+    if (isset($this->session->statut))
     {
-        echo $this->session->statut;
-        echo '<li class="nav-item dropdown">
+        echo '<li class="active"><a href="#">'.$this->session->statut.'</a></li>';
+        echo '<li class="nav-item dropdown active">
         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
           Profil
         </a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">Link 1</a><br/>
-          <a class="dropdown-item" href="#">Link 2</a><br/>
-          <a class="dropdown-item" href="deconnexion">Se déconnecter</a>
-        </div>
-        </li>';
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Modifier mon profil</a></li>
+          <li><a class="dropdown-item" href="deconnexion">Me déconnecter</a></li>
+        </ul>
+        </li>
+        <li class="active"><a href="#">Gérer mon équipe</a></li>';
     }
     else
     {
-      echo '<li class="active"><a href="SeConnecter">Se connecter</a></li>';
-        /*echo '<li class="nav-item active">
-        <a class="nav-link" href="#" data-toggle="modal" data-target="#myModal">
-          Se connecter
-        </a>
-      
-              <!-- Modal -->
-              <div class="modal fade" id="myModal" role="dialog">
-              <div class="modal-dialog">
-        
-              <!-- Modal content-->
-              <div class="modal-content">
-              <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Modal Header</h4>
-              </div>
-              <div class="modal-body">
-              <p>'; echo validation_errors();
-              echo form_open('test/connect');
-              echo form_label('Identifiant','txtIdentifiant');
-              echo form_input('txtIdentifiant', set_value('txtIdentifiant'));
-              echo form_label('Mot de passe','txtMotDePasse');
-              echo form_password('txtMotDePasse', set_value('txtMotDePasse'));
-              echo form_submit('submit', 'Se connecter');
-              echo form_close();
-              echo '</p>
-              </div>
-              <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-              </div>
-              </div>
-              </div>
-              </li>';*/
+        echo '<li class="active"><a href="#">'.$this->session->statut.'</a></li>';
+        echo '<li class="active"><a href="/Randotroll/index.php/Visiteur/SeConnecterResponsable">Me connecter</a></li>';
             }
           ?>    
           <li class="active"><a href="Accueil">Home</a></li>
-          <li><a href="#">Page 1</a></li>
-          <li><a href="#">Page 2</a></li>
         </ul>
         <form class="navbar-form navbar-left" action="/action_page.php">
           <div class="input-group">
@@ -95,6 +65,5 @@ session_start();
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-12">
-      <div class="page">
+    <div class="col-sm-12 page">
       <?php  ?>

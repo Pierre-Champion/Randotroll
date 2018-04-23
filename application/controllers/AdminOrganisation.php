@@ -50,10 +50,7 @@
         }
 
 
-        public function ajouterBenevole() {
 
-            
-        }
 
 
 
