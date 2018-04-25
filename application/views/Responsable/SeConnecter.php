@@ -1,4 +1,8 @@
               <?php 
+              if(isset($connexion)&&$connexion=="échouée")
+              {
+                  echo 'Mail ou mot de passe incorrect.';
+              }
               echo validation_errors();
               echo form_open('Visiteur/SeConnecterResponsable');
               echo form_label('Mail','txtMail');

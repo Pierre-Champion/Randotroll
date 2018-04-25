@@ -27,16 +27,16 @@ session_start();
         </ul>
     </div>
     <ul class="nav navbar-nav">
+    <li class="active"><a href="Accueil">Home</a></li>
     <?php
     if (isset($this->session->statut))
     {
-        echo '<li class="active"><a href="#">'.$this->session->statut.'</a></li>';
         echo '<li class="nav-item dropdown active">
         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
           Profil
         </a>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Modifier mon profil</a></li>
+          <li><a class="dropdown-item" href="ModifierProfil">Modifier mon profil</a></li>
           <li><a class="dropdown-item" href="deconnexion">Me déconnecter</a></li>
         </ul>
         </li>
@@ -44,11 +44,9 @@ session_start();
     }
     else
     {
-        echo '<li class="active"><a href="#">'.$this->session->statut.'</a></li>';
-        echo '<li class="active"><a href="/Randotroll/index.php/Visiteur/SeConnecterResponsable">Me connecter</a></li>';
-            }
-          ?>    
-          <li class="active"><a href="Accueil">Home</a></li>
+      echo '<li class="active"><a href="/Randotroll/index.php/Visiteur/SeConnecterResponsable">Me connecter</a></li>';
+    }
+          ?>
         </ul>
         <form class="navbar-form navbar-left" action="/action_page.php">
           <div class="input-group">

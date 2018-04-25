@@ -16,6 +16,12 @@ public function retournerResponsable($pResponsable)
    return $requete->row(); // retour d'une seule ligne !
    // retour sous forme d'objets
 } // retournerUtilisateur
+public function retournerPart($pResponsable)
+{
+   $requete = $this->db->get_where('Participant',$pResponsable);
+   return $requete->row(); // retour d'une seule ligne !
+   // retour sous forme d'objets
+} // retournerUtilisateur
 public function CreerComptePart($DPart)
 {
     $this->db->insert('participant', $DPart);
@@ -35,5 +41,14 @@ public function CreerCompte($Donnees)
     );
     return $this->db->insert('responsable', $data);
 }
-    
+public function ModifierResp($Donnees)
+{
+    $this->db->where('noparticipant', $Donnees['NOPARTICIPANT']);
+    return $this->db->update('responsable', $Donnees);
+}
+public function ModifierPart($Donnees)
+{
+    $this->db->where('noparticipant', $Donnees['NOPARTICIPANT']);
+    return $this->db->update('participant', $Donnees);
+}
 } // Fin Classe
