@@ -36,7 +36,9 @@ session_start();
           Profil
         </a>
         <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="VoirProfil">Voir mon profil</a></li>
           <li><a class="dropdown-item" href="ModifierProfil">Modifier mon profil</a></li>
+          <li><a class="dropdown-item" href="ModifierMDP">Modifier mot de passe</a></li>
           <li><a class="dropdown-item" href="deconnexion">Me déconnecter</a></li>
         </ul>
         </li>

@@ -33,7 +33,9 @@
             $this->form_validation->set_rules('txtNom', 'Nom', 'required');
             $this->form_validation->set_rules('txtPrenom', 'Prénom', 'required');
             $this->form_validation->set_rules('rdbtnSexe', 'Sexe', 'required');
-            $this->form_validation->set_rules('txtDateNaiss', 'Date de naissance', 'required|regex_match[/^\d{4}\-\d{2}\-\d{2}/]');
+            $this->form_validation->set_rules('txtJourNaiss', 'Jour de naissance', 'required|regex_match[/^[0-9]{2}$/]');
+            $this->form_validation->set_rules('txtMoisNaiss', 'Mois de naissance', 'required|regex_match[/^[0-9]{2}$/]');
+            $this->form_validation->set_rules('txtAnneeNaiss', 'Année de naissance', 'required|regex_match[/^[0-9]{4}$/]');
             $this->form_validation->set_rules('txtMail', 'Mail', 'required|regex_match[/^[[:punct:]a-z]*@[a-z]*\.\w*/]');
             $this->form_validation->set_rules('txtMotDePasse', 'Mot de passe', 'required');
             $this->form_validation->set_rules('txtTel', 'Téléphone portable', array('regex_match[/^[0-9]{10}$/]','required'));
@@ -61,12 +63,13 @@
                     else
                     {
                         $DonneesInjectees['DejaExistant']=false;
+                        $DateNaiss=$this->input->post('txtAnneeNaiss')."-".$this->input->post('txtMoisNaiss')."-".$this->input->post('txtJourNaiss');
                         $DonneesParticipant=array
                         (
                             'NOM'=> $this->input->post('txtNom'),
                             'PRENOM'=> $this->input->post('txtPrenom'),
                             'SEXE'=> $this->input->post('rdbtnSexe'),
-                            'DATEDENAISSANCE'=> $this->input->post('txtDateNaiss'),
+                            'DATEDENAISSANCE'=> $DateNaiss,
                         );
                         $DonneesResponsable=array
                         (
@@ -138,6 +141,21 @@
                     }  
                 }
             } // fin seConnecter
+            public function RecupMDP()
+            {
+                if (!preg_match("#^[a-z0-9._-]+@(hotmail|live|msn).[a-z]{2,4}$#", $mail))
+                {
+	                $passage_ligne = "\r\n";
+                }
+                    else
+                {
+	                $passage_ligne = "\n";
+                }
+                $header = "From: \"Randotroll CK\"<RandotrollCK@gmail.com>".$passage_ligne;
+                $header .= "Reply-to: \"WeaponsB\" <weaponsb@mail.fr>".$passage_ligne;
+                $header .= "MIME-Version: 1.0".$passage_ligne;
+                $header .= "Content-Type: multipart/alternative;".$passage_ligne." boundary=\"$boundary\"".$passage_ligne;
+            }
             public function deconnexion()
             {
                 session_destroy();

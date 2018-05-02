@@ -26,15 +26,13 @@
             }
         public function ModifierProfil()
         {
+            $this->load->helper('form');
             $this->load->library('form_validation');
-            $DonneesInjectees['TitreDeLaPage'] = 'Nouveau Compte';
-        $this->form_validation->set_rules('txtNom', 'Nom', 'required');
-        $this->form_validation->set_rules('txtPrenom', 'Prénom', 'required');
-        $this->form_validation->set_rules('rdbtnSexe', 'Sexe', 'required');
-        $this->form_validation->set_rules('txtDateNaiss', 'Date de naissance', 'required|regex_match[/^\d{4}\-\d{2}\-\d{2}/]');
-        $this->form_validation->set_rules('txtMail', 'Mail', 'required|regex_match[/^[[:punct:]a-z]*@[a-z]*\.\w*/]');
-        $this->form_validation->set_rules('txtMotDePasse', 'Mot de passe', 'required');
-        $this->form_validation->set_rules('txtTel', 'Téléphone portable', array('regex_match[/^[0-9]{10}$/]','required'));
+            $DonneesInjectees['TitreDeLaPage'] = 'Modification Compte';
+            $this->form_validation->set_rules('txtNom', 'Nom', 'required');
+            $this->form_validation->set_rules('txtPrenom', 'Prénom', 'required');
+            $this->form_validation->set_rules('rdbtnSexe', 'Sexe', 'required');
+            $this->form_validation->set_rules('txtTel', 'Téléphone portable', array('regex_match[/^[0-9]{10}$/]','required'));
             $Responsable=array(
                 "NOPARTICIPANT"=>$this->session->noRespo
             );
@@ -43,11 +41,8 @@
             $DonneesInjectees=array(
                 "txtNom"=>$part->NOM,
                 "txtPrenom"=>$part->PRENOM,
-                "txtDateNaiss"=>$part->DATEDENAISSANCE,
                 "rdbtnSexe"=>$part->SEXE,
-                "txtMail"=>$resp->MAIL,
                 "txtTel"=>$resp->TELPORTABLE,
-                "txtMotDePasse"=>$resp->MOTDEPASSE
             );
             if ($this->form_validation->run() === FALSE)
                 {   // échec de la validation
@@ -64,7 +59,6 @@
                         'NOM'=> $this->input->post('txtNom'),
                         'PRENOM'=> $this->input->post('txtPrenom'),
                         'SEXE'=> $this->input->post('rdbtnSexe'),
-                        'DATEDENAISSANCE'=> $this->input->post('txtDateNaiss'),
                     );
                     $update=$this->ModeleResponsable->ModifierPart($DonneesParticipant);
                     if($update)
@@ -72,17 +66,12 @@
                         $DonneesResponsable=array
                         (
                             "NOPARTICIPANT"=>$this->session->noRespo,
-                            'MAIL'=> $this->input->post('txtMail'),
                             'TELPORTABLE'=> $this->input->post('txtTel'),
-                            'MOTDEPASSE'=> $this->input->post('txtMotDePasse'),
                         );
                         $update=$this->ModeleResponsable->ModifierResp($DonneesResponsable);
                         if ($update)
                         {
-                            $this->load->view('templates/Entete');
-                            $this->load->view('Responsable/ModifCompteReussie');
-                            $this->load->view('Responsable/Accueil', $DonneesInjectees);
-                            $this->load->view('templates/PiedDePage');
+                            redirect('Responsable/Accueil');
                         }
                     }
                     else
@@ -92,6 +81,90 @@
                         $this->load->view('templates/PiedDePage');
                     }
                 }
+        }
+        public function ModifierMDP()
+        {
+                $this->load->library('form_validation');
+                $DonneesInjectees['TitreDeLaPage'] = 'Se connecter';
+                $this->form_validation->set_rules('txtMotDePasse', 'Mot de passe', 'required');
+                $this->form_validation->set_rules('txtNouvMotDePasse', 'Nouveau mot de passe', 'required');
+                if ($this->form_validation->run() === FALSE)
+                {
+                    $this->load->view('templates/Entete');
+                    $this->load->view('Responsable/ModifierMDP', $DonneesInjectees);
+                    $this->load->view('templates/PiedDePage');
+                }
+                else
+                {
+                    if ($this->input->post('txtMotDePasse')!=$this->input->post('txtNouvMotDePasse'))
+                    {
+                        $DonneesInjectees["Egal"]=false;
+                        $DonneesVerification=array
+                        (
+                            "NOPARTICIPANT"=>$this->session->noRespo,
+                            "MOTDEPASSE"=> $this->input->post('txtMotDePasse'),
+                        );
+                        $Verif=$this->ModeleResponsable->RetournerResponsable($DonneesVerification);
+                        if($Verif)
+                        {
+                            $DonneesInjectees["Verif"]=true;
+                            $DonneesInjectees=array
+                            (
+                                "NOPARTICIPANT"=>$this->session->noRespo,
+                                'MOTDEPASSE'=> $this->input->post('txtNouvMotDePasse'),
+                            );
+                            $update=$this->ModeleResponsable->ModifierResp($DonneesInjectees);
+                            if($update)
+                            {
+                                $this->load->view('Templates/Entete');
+                                $this->load->view('Responsable/ModifMDPReussie');
+                                $this->load->view('Templates/PiedDePage');
+                            }
+                        }
+                        else
+                        {
+                            $DonneesInjectees["Verif"]=false;
+                            $this->load->view('templates/Entete');
+                            $this->load->view('Responsable/ModifierMDP', $DonneesInjectees);
+                            $this->load->view('templates/PiedDePage');
+                        }
+                    }
+                    else
+                    {
+                        $DonneesInjectees["Egal"]=true;
+                        $this->load->view('templates/Entete');
+                        $this->load->view('Responsable/ModifierMDP', $DonneesInjectees);
+                        $this->load->view('templates/PiedDePage');
+                    }
+                }
+        }
+        public function VoirProfil()
+        {
+            $Responsable=array(
+                "NOPARTICIPANT"=>$this->session->noRespo
+            );
+            $part=$this->ModeleResponsable->retournerPart($Responsable);
+            $resp=$this->ModeleResponsable->retournerResponsable($Responsable);
+            if ($part->SEXE=="F")
+            {
+                $sexe="Femme";
+            }
+            else
+            {
+                $sexe="Homme";
+            }
+            $dateNaiss=explode ('-', $part->DATEDENAISSANCE);
+            $DonneesInjectees=array(
+                "txtNom"=>$part->NOM,
+                "txtPrenom"=>$part->PRENOM,
+                "txtSexe"=>$sexe,
+                "txtDateNaiss"=>$dateNaiss[2]."/".$dateNaiss[1]."/".$dateNaiss[0],
+                "txtMail"=>$resp->MAIL,
+                "txtTel"=>$resp->TELPORTABLE,
+            );
+            $this->load->view('templates/Entete');
+            $this->load->view('Responsable/VoirProfil', $DonneesInjectees);
+            $this->load->view('templates/PiedDePage');            
         }
         public function GererEquipe()
         {
