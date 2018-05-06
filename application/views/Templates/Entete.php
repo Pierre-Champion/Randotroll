@@ -42,7 +42,7 @@ session_start();
           <li><a class="dropdown-item" href="deconnexion">Me déconnecter</a></li>
         </ul>
         </li>
-        <li class="active"><a href="#">Gérer mon équipe</a></li>';
+        <li class="active"><a href="GererEquipe">Gérer mon équipe</a></li>';
     }
     else
     {
@@ -50,16 +50,6 @@ session_start();
     }
           ?>
         </ul>
-        <form class="navbar-form navbar-left" action="/action_page.php">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search" name="search">
-            <div class="input-group-btn">
-              <button class="btn btn-default" type="submit">
-                <i class="glyphicon glyphicon-search"></i>
-              </button>
-            </div>
-          </div>
-        </form>
       </div>
       </nav>
     </div>

@@ -122,7 +122,7 @@
                     'MotDePasse' => $this->input->post('txtMotDePasse'),
                     ); // on récupère les données du formulaire de connexion
                     // on va chercher l'utilisateur correspondant aux Id et MdPasse saisis
-                    $ResponsableRetourne = $this->ModeleResponsable->retournerResponsable($Responsable);
+                    $ResponsableRetourne = $this->ModeleResponsable->Existe($Responsable);
                     if (!($ResponsableRetourne == null))
                     {    // on a trouvé, identifiant et statut (droit) sont stockés en session
                         $DonneesInjectees["connexion"]="réussie";

@@ -104,7 +104,7 @@
                             "NOPARTICIPANT"=>$this->session->noRespo,
                             "MOTDEPASSE"=> $this->input->post('txtMotDePasse'),
                         );
-                        $Verif=$this->ModeleResponsable->RetournerResponsable($DonneesVerification);
+                        $Verif=$this->ModeleResponsable->Existe($DonneesVerification);
                         if($Verif)
                         {
                             $DonneesInjectees["Verif"]=true;
@@ -168,7 +168,45 @@
         }
         public function GererEquipe()
         {
-            
+            $Responsable=array("NOPAR_RESPONSABLE" => $this->session->noRespo);
+            $NoEquipe=$this->ModeleResponsable->NoEquipe($Responsable);
+            if (!isset($NoEquipe))
+            {
+                $this->load->library('form_validation');
+                $DonneesInjectees['TitreDeLaPage'] = 'Nouveau Compte';
+                $this->form_validation->set_rules('txtNomEquipe', 'Nom de l\'équipe', 'required');
+                if ($this->form_validation->run() === FALSE)
+                {
+                    $this->load->view('templates/Entete');
+                    $this->load->view('Responsable/CreerEquipe', $DonneesInjectees);
+                    $this->load->view('templates/PiedDePage');
+                }
+                else
+                {
+                    $DonneesInjectees=array
+                    (
+                        'NOPAR_RESPONSABLE'=> $this->session->noRespo,
+                        'NOMEQUIPE'=> $this->input->post('txtNomEquipe'),
+                    );
+                    $Insert=$this->ModeleResponsable->CreerEquipe($DonneesInjectees);
+                    if ($Insert)
+                    {
+                        redirect('Responsable/GererEquipe','refresh');
+                    }
+                    else
+                    {
+                        $this->load->view('templates/Entete');
+                        $this->load->view('Responsable/CreerEquipe', $DonneesInjectees);
+                        $this->load->view('templates/PiedDePage');
+                    }
+                }
+            }
+            else
+            {
+                $this->load->view('templates/Entete');
+                $this->load->view('Responsable/GererEquipe');
+                $this->load->view('templates/PiedDePage');
+            }
         }
     }
     
