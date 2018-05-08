@@ -85,7 +85,7 @@
         public function ModifierMDP()
         {
                 $this->load->library('form_validation');
-                $DonneesInjectees['TitreDeLaPage'] = 'Se connecter';
+                $DonneesInjectees['TitreDeLaPage'] = 'Modification de mot de passe';
                 $this->form_validation->set_rules('txtMotDePasse', 'Mot de passe', 'required');
                 $this->form_validation->set_rules('txtNouvMotDePasse', 'Nouveau mot de passe', 'required');
                 if ($this->form_validation->run() === FALSE)

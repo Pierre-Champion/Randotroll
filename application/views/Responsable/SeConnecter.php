@@ -16,4 +16,6 @@
               echo form_submit('submit', 'Se connecter');
               echo form_close();
               echo '<a href="CreerCompteResponsable">Creer un nouveau compte</a>';
+              echo '<br>';
+              echo '<a href="RecupMDP">Mot de passe oublié</a>';
               ?>
