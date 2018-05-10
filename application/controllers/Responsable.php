@@ -149,7 +149,7 @@
             {
                 $sexe="Femme";
             }
-            else
+            else if($part->SEXE=="H")
             {
                 $sexe="Homme";
             }

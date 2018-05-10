@@ -100,7 +100,6 @@
         }
         public function SeConnecterResponsable()
             {
-                $DonneesInjectees['connexion']="";
                 $this->load->helper('form');
                 $this->load->library('form_validation');
                 $DonneesInjectees['TitreDeLaPage'] = 'Se connecter';
@@ -122,12 +121,12 @@
                     'MotDePasse' => $this->input->post('txtMotDePasse'),
                     ); // on récupère les données du formulaire de connexion
                     // on va chercher l'utilisateur correspondant aux Id et MdPasse saisis
-                    $ResponsableRetourne = $this->ModeleResponsable->Existe($Responsable);
+                    $ResponsableRetourne = $this->ModeleResponsable->retournerResponsable($Responsable);
                     if (!($ResponsableRetourne == null))
                     {    // on a trouvé, identifiant et statut (droit) sont stockés en session
                         $DonneesInjectees["connexion"]="réussie";
                         $this->session->Identifiant = $ResponsableRetourne->MAIL;
-                        $this->session->noRespo=$ResponsableRetourne->NOPARTICIPANT;
+                        $this->session->noRespo = $ResponsableRetourne->NOPARTICIPANT;
                         $this->session->statut = 'Responsable';
                         $DonneesInjectees['Identifiant'] = $Responsable['MAIL'];
                         redirect("Responsable/Accueil", $DonneesInjectees);
@@ -165,7 +164,46 @@
                         $ResponsableRetourne = $this->ModeleResponsable->retournerPart($Responsable);
                         $Nom=$ResponsableRetourne->NOM;
                         $Prenom=$ResponsableRetourne->PRENOM;
-                        //echo $Prenom." ".$Nom.", votre mot de passe est : ".$MDP.".";
+                        ini_set("SMTP","smtp.gmail.com");
+                        ini_set("smtp_port","487");
+                        ini_set('username','RandotrollCK@gmail.com');
+                        ini_set('password','a1,z2;e3:');
+                        if (!preg_match("#^[a-z0-9._-]+@(hotmail|live|msn).[a-z]{2,4}$#", $Mail))
+                        {
+	                        $passage_ligne = "\r\n";
+                        }
+                        else
+                        {
+	                        $passage_ligne = "\n";
+                        }
+                        $message_txt = "Votre mot de passe est: $MDP.";
+                        $message_html = "<html><head></head><body>Votre mot de passe est: $MDP. <br/>".anchor('http://127.0.0.1/Randotroll', 'Revenir sur le site')."</body></html>";
+                        $boundary = "-----=".md5(rand());
+                        $sujet = "Récupération de mot de passe";
+                        $header = "From: \"Randotroll CK\"<RandotrollCK@gmail.com>".$passage_ligne;
+                        $header .= "Reply-to: \"WeaponsB\" <$Mail>".$passage_ligne;
+                        $header .= "MIME-Version: 1.0".$passage_ligne;
+                        $header .= "Content-Type: multipart/alternative;".$passage_ligne." boundary=\"$boundary\"".$passage_ligne;
+                        $message = $passage_ligne."--".$boundary.$passage_ligne;
+                        $message.= "Content-Type: text/plain; charset=\"ISO-8859-1\"".$passage_ligne;
+                        $message.= "Content-Transfer-Encoding: 8bit".$passage_ligne;
+                        $message.= $passage_ligne.$message_txt.$passage_ligne;
+                        $message.= $passage_ligne."--".$boundary.$passage_ligne;
+                        $message.= "Content-Type: text/html; charset=\"ISO-8859-1\"".$passage_ligne;
+                        $message.= "Content-Transfer-Encoding: 8bit".$passage_ligne;
+                        $message.= $passage_ligne.$message_html.$passage_ligne;
+                        $message.= $passage_ligne."--".$boundary."--".$passage_ligne;
+                        $message.= $passage_ligne."--".$boundary."--".$passage_ligne;
+                        $envoie=mail($Mail,$sujet,$message,$header);
+                        if ($envoie)
+                        {
+                            echo "gg";
+                        }
+                        else
+                        {
+                            echo "noob".$envoie;
+                        }
+                        //Tutoriel OpenClassroom: https://openclassrooms.com/courses/e-mail-envoyer-un-e-mail-en-php
                         /*date_default_timezone_set('Etc/UTC');
                             require '../PHPMailerAutoload.php';
                         //Create a new PHPMailer instance
@@ -221,39 +259,6 @@
                             $this->load->view('Responsable/RecupMotDePasse', $DonneesInjectees);
                             $this->load->view('templates/PiedDePage');
                     }
-                    /*
-                    ini_set("SMTP", "smtp.gmail.com");
-                    ini_set('smtp_port',465);
-                    ini_set('username','RandotrollCK@gmail.com');
-                    ini_set('password','a1,z2;e3:');
-                    if (!preg_match("#^[a-z0-9._-]+@(hotmail|live|msn).[a-z]{2,4}$#", $Mail))
-                    {
-	                    $passage_ligne = "\r\n";
-                    }
-                    else
-                    {
-	                    $passage_ligne = "\n";
-                    }
-                    $message_txt = "Votre mot de passe est: $MDP.";
-                    $message_html = "<html><head></head><body>Votre mot de passe est: $MDP. <br/>".anchor('http://127.0.0.1/Randotroll', 'Revenir sur le site')."</body></html>";
-                    $boundary = "-----=".md5(rand());
-                    $sujet = "Récupération de mot de passe";
-                    $header = "From: \"Randotroll CK\"<RandotrollCK@gmail.com>".$passage_ligne;
-                    $header .= "Reply-to: \"WeaponsB\" <$Mail>".$passage_ligne;
-                    $header .= "MIME-Version: 1.0".$passage_ligne;
-                    $header .= "Content-Type: multipart/alternative;".$passage_ligne." boundary=\"$boundary\"".$passage_ligne;
-                    $message = $passage_ligne."--".$boundary.$passage_ligne;
-                    $message.= "Content-Type: text/plain; charset=\"ISO-8859-1\"".$passage_ligne;
-                    $message.= "Content-Transfer-Encoding: 8bit".$passage_ligne;
-                    $message.= $passage_ligne.$message_txt.$passage_ligne;
-                    $message.= $passage_ligne."--".$boundary.$passage_ligne;
-                    $message.= "Content-Type: text/html; charset=\"ISO-8859-1\"".$passage_ligne;
-                    $message.= "Content-Transfer-Encoding: 8bit".$passage_ligne;
-                    $message.= $passage_ligne.$message_html.$passage_ligne;
-                    $message.= $passage_ligne."--".$boundary."--".$passage_ligne;
-                    $message.= $passage_ligne."--".$boundary."--".$passage_ligne;
-                    mail($Mail,$sujet,$message,$header);
-                    //Tutoriel OpenClassroom: https://openclassrooms.com/courses/e-mail-envoyer-un-e-mail-en-php*/
                 }
             }
             public function deconnexion()
