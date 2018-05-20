@@ -29,7 +29,7 @@ session_start();
     <ul class="nav navbar-nav">
     <li class="active"><a href="Accueil">Home</a></li>
     <?php
-    if (isset($this->session->statut))
+    if (isset($this->session->statut) && $this->session->statut == 'Responsable')
     {
         echo '<li class="nav-item dropdown active">
         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">

@@ -12,6 +12,7 @@
                 redirect('Visiteur/Accueil');
             }
             $this->load->model('ModeleResponsable');
+            $this->load->model('ModeleEquipe');
         }
         public function Accueil($DonneesInjectees=null)
         {
@@ -169,7 +170,7 @@
         public function GererEquipe()
         {
             $Responsable=array("NOPAR_RESPONSABLE" => $this->session->noRespo);
-            $NoEquipe=$this->ModeleResponsable->NoEquipe($Responsable);
+            $NoEquipe=$this->ModeleEquipe->NoEquipe($Responsable);
             if (!isset($NoEquipe))
             {
                 $this->load->library('form_validation');
@@ -183,12 +184,12 @@
                 }
                 else
                 {
-                    $DonneesInjectees=array
+                    $Equipe=array
                     (
                         'NOPAR_RESPONSABLE'=> $this->session->noRespo,
                         'NOMEQUIPE'=> $this->input->post('txtNomEquipe'),
                     );
-                    $Insert=$this->ModeleResponsable->CreerEquipe($DonneesInjectees);
+                    $Insert=$this->ModeleEquipe->CreerEquipe($Equipe);
                     if ($Insert)
                     {
                         redirect('Responsable/GererEquipe','refresh');
@@ -203,9 +204,24 @@
             }
             else
             {
-                $this->load->view('templates/Entete');
-                $this->load->view('Responsable/GererEquipe');
-                $this->load->view('templates/PiedDePage');
+                $nbCoureurs=$this->ModeleEquipe->CountEquipe($NoEquipe);
+                if ($nbCoureurs>0)
+                {
+                    $equipe=$this->ModeleEquipe->RetournerEquipe($NoEquipe);
+                    foreach ($equipe as $noparticipant => $Value) {
+                        $participant=$this->ModeleEquipe->RetournerRandonneur($Value);
+                        foreach ($participant as $value) {
+                            echo $value;
+                        }
+                    }
+                }
+                else
+                {
+                    $DonneesInjectees["randonneurs"]="aucun";
+                    $this->load->view('templates/Entete');
+                    $this->load->view('Responsable/GererEquipe', $DonneesInjectees);
+                    $this->load->view('templates/PiedDePage');
+                }
             }
         }
     }

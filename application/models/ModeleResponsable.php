@@ -49,14 +49,4 @@ public function ModifierPart($Donnees)
     $this->db->where('noparticipant', $Donnees['NOPARTICIPANT']);
     return $this->db->update('participant', $Donnees);
 }
-public function NoEquipe($NoResponsable)
-{
-   $requete = $this->db->get_where('Equipe',$NoResponsable);
-   return $requete->row(2);
-}
-public function CreerEquipe($Donnees)
-{
-    $insert=$this->db->insert('Equipe', $Donnees);
-    return $insert;
-}
 }
