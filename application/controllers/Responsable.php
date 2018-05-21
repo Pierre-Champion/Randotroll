@@ -170,8 +170,8 @@
         public function GererEquipe()
         {
             $Responsable=array("NOPAR_RESPONSABLE" => $this->session->noRespo);
-            $NoEquipe=$this->ModeleEquipe->NoEquipe($Responsable);
-            if (!isset($NoEquipe))
+            $this->session->NoEquipe=$this->ModeleEquipe->NoEquipe($Responsable);
+            if (!isset($this->session->NoEquipe))
             {
                 $this->load->library('form_validation');
                 $DonneesInjectees['TitreDeLaPage'] = 'Nouveau Compte';
@@ -204,26 +204,97 @@
             }
             else
             {
-                $nbCoureurs=$this->ModeleEquipe->CountEquipe($NoEquipe);
-                if ($nbCoureurs>0)
+                $DonneesInjectees["nbCoureurs"]=$this->ModeleEquipe->CountEquipe($this->session->NoEquipe);
+                if ($DonneesInjectees["nbCoureurs"]>0)
                 {
-                    $equipe=$this->ModeleEquipe->RetournerEquipe($NoEquipe);
-                    foreach ($equipe as $noparticipant => $Value) {
-                        $participant=$this->ModeleEquipe->RetournerRandonneur($Value);
-                        foreach ($participant as $value) {
-                            echo $value;
-                        }
+                    $DonneesInjectees["Coureurs"]=null;
+                    $equipe=$this->ModeleEquipe->RetournerEquipe($this->session->NoEquipe);
+                    foreach ($equipe as $Value) {
+                        $randonneur=$this->ModeleEquipe->RetournerRandonneur($Value);
+                        $participant=$this->ModeleEquipe->RetournerPart($Value);
                     }
+                    $this->load->view('templates/Entete');
+                    $this->load->view('Responsable/GererEquipe', $DonneesInjectees);
+                    $this->load->view('templates/PiedDePage');
                 }
                 else
                 {
-                    $DonneesInjectees["randonneurs"]="aucun";
                     $this->load->view('templates/Entete');
                     $this->load->view('Responsable/GererEquipe', $DonneesInjectees);
                     $this->load->view('templates/PiedDePage');
                 }
             }
         }
+        public function InscrireCoureur()
+        {
+            if (isset($this->session->NoEquipe))
+            {
+                $this->load->library('form_validation');
+                $DonneesInjectees['TitreDeLaPage'] = 'Nouveau Compte';
+                $this->form_validation->set_rules('txtNom', 'Nom', 'required');
+                $this->form_validation->set_rules('txtPrenom', 'Prénom', 'required');
+                $this->form_validation->set_rules('rdbtnSexe', 'Sexe', 'required');
+                $this->form_validation->set_rules('txtAnnee', 'Année de participation', 'required');
+                $this->form_validation->set_rules('rdbtnRepas', 'Repas', 'required');
+                $this->form_validation->set_rules('txtJourNaiss', 'Jour de naissance', 'required|regex_match[/^[0-9]{2}$/]');
+                $this->form_validation->set_rules('txtMoisNaiss', 'Mois de naissance', 'required|regex_match[/^[0-9]{2}$/]');
+                $this->form_validation->set_rules('txtAnneeNaiss', 'Année de naissance', 'required|regex_match[/^[0-9]{4}$/]');
+                $this->form_validation->set_rules('txtMail', 'Mail', 'regex_match[/^[[:punct:]a-z]*@[a-z]*\.\w*/]');
+                $this->form_validation->set_rules('txtTel', 'Téléphone portable', 'regex_match[/^[0-9]{10}$/]');
+                if ($this->form_validation->run() === FALSE)
+                {  // échec de la validation
+                    // cas pour le premier appel de la méthode : formulaire non encore appelé
+                    $this->load->view('templates/Entete');
+                    $this->load->view('Responsable/InscrireCoureur', $DonneesInjectees); // on renvoie le formulaire
+                    $this->load->view('templates/PiedDePage');
+                }
+                else
+                {
+                    $DateNaiss=$this->input->post('txtAnneeNaiss')."-".$this->input->post('txtMoisNaiss')."-".$this->input->post('txtJourNaiss');
+                    $DonneesParticipant=array
+                    (
+                        'NOM'=> $this->input->post('txtNom'),
+                        'PRENOM'=> $this->input->post('txtPrenom'),
+                        'SEXE'=> $this->input->post('rdbtnSexe'),
+                        'DATEDENAISSANCE'=> $DateNaiss,
+                    );
+                    $DonneesRandonneur=array
+                    (
+                        'MAIL'=> $this->input->post('txtMail'),
+                        'TELPORTABLE'=> $this->input->post('txtTel'),
+                    );
+                    $DonneeEquipe=array
+                    (
+                        'NOEQUIPE'=>$this->session->NoEquipe,
+                        'ANNEE'=>$this->input->post('txtAnnee'),
+                        'REPASSURPLACE'=>$this->input->post('rdbtnRepas'),
+                    );
+                    $DonneesInjectees=array(
+                        'DonneesEquipe'=>$DonneeEquipe,
+                        'DonneesParticipant' => $DonneesParticipant,
+                        'DonneesRandonneur' => $DonneesRandonneur
+                    );
+                    $insert=$this->ModeleEquipe->InscrireCoureur($DonneesInjectees);
+                    if ($insert)
+                    {
+                        $this->load->view('templates/Entete');
+                        $this->load->view('Responsable/GererEquipe', $DonneesInjectees);
+                        $this->load->view('templates/PiedDePage');
+                    }
+                    else
+                    {
+                        $this->load->view('templates/Entete');
+                        $this->load->view('Responsable/InscrireCoureur', $DonneesInjectees);
+                        $this->load->view('templates/PiedDePage');
+                    }  
+                }
+            }
+            else
+            {
+                $this->load->view('templates/Entete');
+                $this->load->view('Responsable/CreerEquipe');
+                $this->load->view('templates/PiedDePage');
+            }
+        }
     }
-    
 ?>

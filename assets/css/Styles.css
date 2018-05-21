@@ -16,6 +16,8 @@
 }
 .Equipe
 {
+    width: 100%;
+    border: 10px black;
     background-color: black;
     padding: 20px;
 }

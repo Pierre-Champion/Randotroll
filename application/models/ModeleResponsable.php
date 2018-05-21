@@ -30,9 +30,10 @@ public function CreerCompte($Donnees)
 {
     $DPart=$Donnees['DonneesParticipant'];
     $DResp=$Donnees['DonneesResponsable'];
-    $NoPart= $this->CreerComptePart($DPart);
+    $this->db->insert('participant', $DPart);
+    $InsertId=$this->db->insert_id();
     $data = array(
-        'NOPARTICIPANT'=>$NoPart,
+        'NOPARTICIPANT'=>$InsertId,
         'MAIL'=> $DResp['MAIL'],
         'TELPORTABLE'=> $DResp['TELPORTABLE'],
         'MOTDEPASSE'=> $DResp['MOTDEPASSE'],

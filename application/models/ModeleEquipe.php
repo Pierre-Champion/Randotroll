@@ -27,15 +27,34 @@ public function RetournerEquipe($noEquipe)
     $requete = $this->db->get_where('MembreDe',array('noequipe' => $noEquipe));
     return $requete->result_array();
 }
+public function RetournerPart($noParticipant)
+{
+    $requete = $this->db->get_where('participant',array("NOPARTICIPANT"=>$noParticipant["NOPARTICIPANT"]));
+    return $requete->row();
+}
 public function RetournerRandonneur($noParticipant)
 {
-    $requete1 = $this->db->get_where('MembreDe',$noParticipant);
-    $requete2 = $this->db->get_where('MembreDe',$noParticipant);
-    $requete = $requete1 + $requete2;
-    return $requete->result_array();
+    $requete = $this->db->get_where('randonneur',array("NOPARTICIPANT"=>$noParticipant["NOPARTICIPANT"]));
+    return $requete->row();
 }
 public function InscrireCoureur($Randonneur)
 {
-
+    $DEquipe=$Randonneur['DonneesEquipe'];
+    $DPart=$Randonneur['DonneesParticipant'];
+    $DRand=$Randonneur['DonneesRandonneur'];
+    $this->db->insert('participant', $DPart);
+    $InsertId=$this->db->insert_id();
+    $dataRand = array(
+        'NOPARTICIPANT'=>$InsertId,
+        'MAIL'=> $DRand['MAIL'],
+        'TELPORTABLE'=> $DRand['TELPORTABLE'],
+    );
+    $dataEquipe = array(
+        'NOPARTICIPANT'=>$InsertId,
+        'ANNEE'=> $DEquipe['ANNEE'],
+        'NOEQUIPE'=> $DEquipe['NOEQUIPE'],
+        'REPASSURPLACE'=> $DEquipe['REPASSURPLACE']
+    );
+    return $this->db->insert('randonneur', $dataRand)&&$this->db->insert('membrede', $dataEquipe);
 }
 }
