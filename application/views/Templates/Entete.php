@@ -17,7 +17,7 @@ session_start();
 }?>
 <div class="row">
 <div class="col-sm-12" style="background-color: rgb(50,0,0); height: 51px">
-<nav class="navbar navbar-inverse navbar-fixed>
+<nav class="navbar navbar-inverse navbar-fixed">
   <div class="container-fluid">
     <div class="navbar-header dropdown">
       <a class="navbar-brand dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Randotroll</a>
@@ -48,7 +48,7 @@ session_start();
     {
       echo '<li class="active"><a href="/Randotroll/index.php/Visiteur/SeConnecterResponsable">Me connecter</a></li>';
     }
-          ?>
+    ?>
         </ul>
       </div>
       </nav>
@@ -56,4 +56,3 @@ session_start();
   </div>
   <div class="row">
     <div class="col-sm-12 page">
-      <?php  ?>

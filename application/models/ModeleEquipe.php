@@ -9,7 +9,15 @@ public function NoEquipe($NoResponsable)
 {
    $requete = $this->db->get_where('Equipe',$NoResponsable);
    $result=$requete->row();
-   return $result->NOEQUIPE;
+   if (isset($result))
+   {
+       return $result->NOEQUIPE;
+   }
+   else
+   {
+       return null;
+   }
+
 }
 public function CountEquipe($noEquipe)
 {

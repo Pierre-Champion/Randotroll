@@ -14,10 +14,19 @@
     background-color: black;
     height: 50px;
 }
-.Equipe
+table
 {
-    width: 100%;
-    border: 10px black;
-    background-color: black;
-    padding: 20px;
+    width: 100%
+}
+th
+{
+    width: 17%;
+    text-align: center;
+    background-color: grey;
+    padding: 10px;
+}
+td
+{
+    text-align: center;
+    padding: 10px;
 }

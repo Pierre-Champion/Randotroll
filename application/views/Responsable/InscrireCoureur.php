@@ -47,6 +47,6 @@
     echo form_radio('rdbtnRepas', '0', ''.set_radio('rdbtnRepas', '0'))."Non";
     echo '<br>';
     echo '<br>';
-    echo form_submit('submit', 'Créer un compte');
+    echo form_submit('submit', 'Inscrire le coureur');
     echo form_close();
 ?>

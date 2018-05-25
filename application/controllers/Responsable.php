@@ -18,7 +18,6 @@
         {
             $this->load->view('templates/Entete');
             $this->load->view('Responsable/Accueil', $DonneesInjectees);
-            $this->load->view('templates/PiedDePage');
         }
         public function deconnexion()
             {
@@ -50,7 +49,6 @@
                     // cas pour le premier appel de la méthode : formulaire non encore appelé
                     $this->load->view('templates/Entete');
                     $this->load->view('Responsable/ModifierResponsable', $DonneesInjectees); // on renvoie le formulaire
-                    $this->load->view('templates/PiedDePage');
                 }
             else
                 {
@@ -79,7 +77,6 @@
                     {
                         $this->load->view('templates/Entete');
                         $this->load->view('Responsable/ModifierResponsable', $DonneesInjectees);
-                        $this->load->view('templates/PiedDePage');
                     }
                 }
         }
@@ -93,7 +90,6 @@
                 {
                     $this->load->view('templates/Entete');
                     $this->load->view('Responsable/ModifierMDP', $DonneesInjectees);
-                    $this->load->view('templates/PiedDePage');
                 }
                 else
                 {
@@ -119,7 +115,6 @@
                             {
                                 $this->load->view('Templates/Entete');
                                 $this->load->view('Responsable/ModifMDPReussie');
-                                $this->load->view('Templates/PiedDePage');
                             }
                         }
                         else
@@ -127,7 +122,6 @@
                             $DonneesInjectees["Verif"]=false;
                             $this->load->view('templates/Entete');
                             $this->load->view('Responsable/ModifierMDP', $DonneesInjectees);
-                            $this->load->view('templates/PiedDePage');
                         }
                     }
                     else
@@ -135,7 +129,6 @@
                         $DonneesInjectees["Egal"]=true;
                         $this->load->view('templates/Entete');
                         $this->load->view('Responsable/ModifierMDP', $DonneesInjectees);
-                        $this->load->view('templates/PiedDePage');
                     }
                 }
         }
@@ -163,9 +156,9 @@
                 "txtMail"=>$resp->MAIL,
                 "txtTel"=>$resp->TELPORTABLE,
             );
+            
             $this->load->view('templates/Entete');
             $this->load->view('Responsable/VoirProfil', $DonneesInjectees);
-            $this->load->view('templates/PiedDePage');            
         }
         public function GererEquipe()
         {
@@ -180,7 +173,6 @@
                 {
                     $this->load->view('templates/Entete');
                     $this->load->view('Responsable/CreerEquipe', $DonneesInjectees);
-                    $this->load->view('templates/PiedDePage');
                 }
                 else
                 {
@@ -198,7 +190,6 @@
                     {
                         $this->load->view('templates/Entete');
                         $this->load->view('Responsable/CreerEquipe', $DonneesInjectees);
-                        $this->load->view('templates/PiedDePage');
                     }
                 }
             }
@@ -207,21 +198,23 @@
                 $DonneesInjectees["nbCoureurs"]=$this->ModeleEquipe->CountEquipe($this->session->NoEquipe);
                 if ($DonneesInjectees["nbCoureurs"]>0)
                 {
-                    $DonneesInjectees["Coureurs"]=null;
+                    $LesCoureurs=array();
                     $equipe=$this->ModeleEquipe->RetournerEquipe($this->session->NoEquipe);
                     foreach ($equipe as $Value) {
-                        $randonneur=$this->ModeleEquipe->RetournerRandonneur($Value);
-                        $participant=$this->ModeleEquipe->RetournerPart($Value);
+                        $Donnees['annee']=$Value;
+                        $Donnees['randonneur']=$this->ModeleEquipe->RetournerRandonneur($Value);
+                        $Donnees['participant']=$this->ModeleEquipe->RetournerPart($Value);
+                        array_push($LesCoureurs,$Donnees);
                     }
+
+                    $DonneesInjectees["LesCoureurs"]=$LesCoureurs;
                     $this->load->view('templates/Entete');
                     $this->load->view('Responsable/GererEquipe', $DonneesInjectees);
-                    $this->load->view('templates/PiedDePage');
                 }
                 else
                 {
                     $this->load->view('templates/Entete');
                     $this->load->view('Responsable/GererEquipe', $DonneesInjectees);
-                    $this->load->view('templates/PiedDePage');
                 }
             }
         }
@@ -246,7 +239,6 @@
                     // cas pour le premier appel de la méthode : formulaire non encore appelé
                     $this->load->view('templates/Entete');
                     $this->load->view('Responsable/InscrireCoureur', $DonneesInjectees); // on renvoie le formulaire
-                    $this->load->view('templates/PiedDePage');
                 }
                 else
                 {
@@ -277,15 +269,14 @@
                     $insert=$this->ModeleEquipe->InscrireCoureur($DonneesInjectees);
                     if ($insert)
                     {
-                        $this->load->view('templates/Entete');
-                        $this->load->view('Responsable/GererEquipe', $DonneesInjectees);
-                        $this->load->view('templates/PiedDePage');
+                        
+                        redirect('Responsable/GererEquipe');
+                        
                     }
                     else
                     {
                         $this->load->view('templates/Entete');
                         $this->load->view('Responsable/InscrireCoureur', $DonneesInjectees);
-                        $this->load->view('templates/PiedDePage');
                     }  
                 }
             }
@@ -293,7 +284,6 @@
             {
                 $this->load->view('templates/Entete');
                 $this->load->view('Responsable/CreerEquipe');
-                $this->load->view('templates/PiedDePage');
             }
         }
     }
