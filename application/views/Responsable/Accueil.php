@@ -1,3 +1,1 @@
-Halb<br/>
-Halb<br/>
-Halb<br/>
+Bienvenue, <?php echo $this->session->Prenom."&nbsp;".$this->session->Nom;?>.

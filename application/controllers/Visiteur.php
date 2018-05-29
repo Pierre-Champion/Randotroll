@@ -23,7 +23,6 @@
             {
                 $this->load->view('Templates/Entete');
                 $this->load->view('Accueil');
-                $this->load->view('Templates/PiedDePage');
             }
         }
         public function CreerCompteResponsable()
@@ -44,7 +43,6 @@
                     // cas pour le premier appel de la méthode : formulaire non encore appelé
                     $this->load->view('templates/Entete');
                     $this->load->view('Responsable/NouveauCompte', $DonneesInjectees); // on renvoie le formulaire
-                    $this->load->view('templates/PiedDePage');
                 }
             else
                 {
@@ -58,7 +56,6 @@
                         $DonneesInjectees['DejaExistant']=true;
                         $this->load->view('templates/Entete');
                         $this->load->view('Responsable/NouveauCompte', $DonneesInjectees);
-                        $this->load->view('templates/PiedDePage');
                     }
                     else
                     {
@@ -87,13 +84,11 @@
                             $this->load->view('templates/Entete');
                             $this->load->view('Responsable/InsertionReussie');
                             $this->load->view('Responsable/SeConnecter', $DonneesInjectees);
-                            $this->load->view('templates/PiedDePage');
                         }
                         else
                         {
                             $this->load->view('templates/Entete');
                             $this->load->view('Responsable/NouveauCompte', $DonneesInjectees);
-                            $this->load->view('templates/PiedDePage');
                         }  
                     }
                 }
@@ -112,7 +107,6 @@
                     // cas pour le premier appel de la méthode : formulaire non encore appelé
                     $this->load->view('templates/Entete');
                     $this->load->view('Responsable/SeConnecter', $DonneesInjectees); // on renvoie le formulaire
-                    $this->load->view('templates/PiedDePage');
                 }
                 else
                 {  // formulaire validé
@@ -124,9 +118,12 @@
                     $ResponsableRetourne = $this->ModeleResponsable->retournerResponsable($Responsable);
                     if (!($ResponsableRetourne == null))
                     {    // on a trouvé, identifiant et statut (droit) sont stockés en session
+                        $ParticipantResponsable = $this->ModeleResponsable->retournerPart(array("NOPARTICIPANT"=>$ResponsableRetourne->NOPARTICIPANT));
                         $DonneesInjectees["connexion"]="réussie";
                         $this->session->Identifiant = $ResponsableRetourne->MAIL;
                         $this->session->noRespo = $ResponsableRetourne->NOPARTICIPANT;
+                        $this->session->Nom = $ParticipantResponsable->NOM;
+                        $this->session->Prenom = $ParticipantResponsable->PRENOM;
                         $this->session->statut = 'Responsable';
                         $DonneesInjectees['Identifiant'] = $Responsable['MAIL'];
                         redirect("Responsable/Accueil", $DonneesInjectees);
@@ -136,7 +133,6 @@
                         $DonneesInjectees["connexion"]="échouée";
                         $this->load->view('templates/Entete');
                         $this->load->view('Responsable/seConnecter', $DonneesInjectees);
-                        $this->load->view('templates/PiedDePage');
                     }  
                 }
             } // fin seConnecter
@@ -149,7 +145,6 @@
                 {
                     $this->load->view('templates/Entete');
                     $this->load->view('Responsable/RecupMotDePasse', $DonneesInjectees);
-                    $this->load->view('templates/PiedDePage');
                 }
                 else
                 {   
@@ -199,14 +194,12 @@
                         {
                             $this->load->view('templates/Entete');
                             $this->load->view('Responsable/RecupMDPReussie', $DonneesInjectees);
-                            $this->load->view('templates/PiedDePage');
                         }
                         else
                         {
                             $DonneesInjectees["Envoi"]=false;
                             $this->load->view('templates/Entete');
                             $this->load->view('Responsable/RecupMotDePasse', $DonneesInjectees);
-                            $this->load->view('templates/PiedDePage');
                         }
                         //Tutoriel OpenClassroom: https://openclassrooms.com/courses/e-mail-envoyer-un-e-mail-en-php
                     }
@@ -215,7 +208,6 @@
                             $DonneesInjectees["Mail"]=false;
                             $this->load->view('templates/Entete');
                             $this->load->view('Responsable/RecupMotDePasse', $DonneesInjectees);
-                            $this->load->view('templates/PiedDePage');
                     }
                 }
             }

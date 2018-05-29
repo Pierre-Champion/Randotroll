@@ -167,7 +167,7 @@
             if (!isset($this->session->NoEquipe))
             {
                 $this->load->library('form_validation');
-                $DonneesInjectees['TitreDeLaPage'] = 'Nouveau Compte';
+                $DonneesInjectees['TitreDeLaPage'] = 'Gerer equipe';
                 $this->form_validation->set_rules('txtNomEquipe', 'Nom de l\'équipe', 'required');
                 if ($this->form_validation->run() === FALSE)
                 {
@@ -201,9 +201,29 @@
                     $LesCoureurs=array();
                     $equipe=$this->ModeleEquipe->RetournerEquipe($this->session->NoEquipe);
                     foreach ($equipe as $Value) {
-                        $Donnees['annee']=$Value;
-                        $Donnees['randonneur']=$this->ModeleEquipe->RetournerRandonneur($Value);
-                        $Donnees['participant']=$this->ModeleEquipe->RetournerPart($Value);
+                        $Donnees['membrede']=$Value;
+                        $Tarifs=$this->ModeleEquipe->getTarifs($Donnees['membrede']['ANNEE']);
+                        $Donnees['randonneur']=$this->ModeleEquipe->RetournerRandonneur($Value["NOPARTICIPANT"]);
+                        $Donnees['participant']=$this->ModeleEquipe->RetournerPart($Value["NOPARTICIPANT"]);
+                        $datenaiss=strtotime($Donnees['participant']->DATEDENAISSANCE);
+                        $age=(int)((time()-$datenaiss)/3600/24/365.25);
+                        if ($age<18)
+                        {
+                            $tarif=(int)$Tarifs->TARIFINSCRIPTIONENFANT;
+                            if($Donnees['membrede']['REPASSURPLACE']==1)
+                            {
+                                $tarif+=(int)$Tarifs->TARIFREPASENFANT;
+                            }
+                        }
+                        else
+                        {
+                            $tarif=(int)$Tarifs->TARIFINSCRIPTIONADULTE;
+                            if($Donnees['membrede']['REPASSURPLACE']==1)
+                            {
+                                $tarif+=(int)$Tarifs->TARIFREPASADULTE;
+                            }
+                        }
+                        $Donnees['tarif']=$tarif;
                         array_push($LesCoureurs,$Donnees);
                     }
 
@@ -223,7 +243,7 @@
             if (isset($this->session->NoEquipe))
             {
                 $this->load->library('form_validation');
-                $DonneesInjectees['TitreDeLaPage'] = 'Nouveau Compte';
+                $DonneesInjectees['TitreDeLaPage'] = 'Nouveau Coureur';
                 $this->form_validation->set_rules('txtNom', 'Nom', 'required');
                 $this->form_validation->set_rules('txtPrenom', 'Prénom', 'required');
                 $this->form_validation->set_rules('rdbtnSexe', 'Sexe', 'required');
@@ -285,6 +305,91 @@
                 $this->load->view('templates/Entete');
                 $this->load->view('Responsable/CreerEquipe');
             }
+        }
+        public function DesinscrireCoureur($Donnees)
+        {
+            if(is_numeric($Donnees))
+            {
+                $this->session->noCoureur=$Donnees;
+                $Participant=$this->ModeleEquipe->RetournerPart($Donnees);
+                $this->load->view('templates/Entete');
+                $this->load->view('Responsable/DesinscrireCoureur',$Participant);
+            }
+            elseif ($Donnees=="oui")
+            {
+                $this->ModeleEquipe->Desinscrire($this->session->noCoureur);
+                redirect('Responsable/GererEquipe');
+            }
+        }
+        public function ModifierCoureur($noCoureur)
+        {
+            $this->load->helper('form');
+            $this->load->library('form_validation');
+            $DonneesInjectees['TitreDeLaPage'] = 'Modification Coureur';
+            $this->form_validation->set_rules('txtNom', 'Nom', 'required');
+            $this->form_validation->set_rules('txtPrenom', 'Prénom', 'required');
+            $this->form_validation->set_rules('txtTel', 'Téléphone portable', 'regex_match[/^[0-9]{10}$/]');
+            $this->form_validation->set_rules('txtMail', 'Mail', 'regex_match[/^[[:punct:]a-z]*@[a-z]*\.\w*/]');
+            $this->form_validation->set_rules('rdbtnRepas', 'Repas', 'required');
+            $part=$this->ModeleEquipe->retournerPart($noCoureur);
+            $rand=$this->ModeleEquipe->RetournerRandonneur($noCoureur);
+            $repas=$this->ModeleEquipe->getRepas($noCoureur);
+            $DonneesInjectees=array(
+                "nocoureur"=>$noCoureur,
+                "txtNom"=>$part->NOM,
+                "txtPrenom"=>$part->PRENOM,
+                "txtTel"=>$rand->TELPORTABLE,
+                "txtMail"=>$rand->MAIL,
+                "rdbtnRepas"=>$repas->REPASSURPLACE
+            );
+            if ($this->form_validation->run() === FALSE)
+                {
+                    $this->load->view('templates/Entete');
+                    $this->load->view('Responsable/ModifierCoureur', $DonneesInjectees);
+                }
+            else
+                {
+                    $DonneesParticipant=array
+                    (
+                        "NOPARTICIPANT"=>$noCoureur,
+                        'NOM'=> $this->input->post('txtNom'),
+                        'PRENOM'=> $this->input->post('txtPrenom'),
+                    );
+                    $update=$this->ModeleEquipe->ModifierPart($DonneesParticipant);
+                    if($update)
+                    {
+                        $DonneesRandonneur=array
+                        (
+                            "NOPARTICIPANT"=>$noCoureur,
+                            'TELPORTABLE'=> $this->input->post('txtTel'),
+                            "MAIL"=>$this->input->post('txtMail')
+                        );
+                        $update=$this->ModeleEquipe->ModifierRand($DonneesRandonneur);
+                        if ($update)
+                        {
+                            $DonneesRepas=array
+                            (
+                                "NOPARTICIPANT"=>$noCoureur,
+                                "REPASSURPLACE"=>$this->input->post('rdbtnRepas')
+                            );
+                            $update=$this->ModeleEquipe->ModifierRepas($DonneesRepas);
+                            if ($update)
+                            {
+                                redirect('Responsable/GererEquipe');
+                            }
+                        }
+                        else
+                        {
+                            $this->load->view('templates/Entete');
+                            $this->load->view('Responsable/ModifierCoureur', $DonneesInjectees);
+                        }
+                    }
+                    else
+                    {
+                        $this->load->view('templates/Entete');
+                        $this->load->view('Responsable/ModifierCoureur', $DonneesInjectees);
+                    }
+                }
         }
     }
 ?>

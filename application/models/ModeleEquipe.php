@@ -37,12 +37,12 @@ public function RetournerEquipe($noEquipe)
 }
 public function RetournerPart($noParticipant)
 {
-    $requete = $this->db->get_where('participant',array("NOPARTICIPANT"=>$noParticipant["NOPARTICIPANT"]));
+    $requete = $this->db->get_where('participant',array("NOPARTICIPANT"=>$noParticipant));
     return $requete->row();
 }
 public function RetournerRandonneur($noParticipant)
 {
-    $requete = $this->db->get_where('randonneur',array("NOPARTICIPANT"=>$noParticipant["NOPARTICIPANT"]));
+    $requete = $this->db->get_where('randonneur',array("NOPARTICIPANT"=>$noParticipant));
     return $requete->row();
 }
 public function InscrireCoureur($Randonneur)
@@ -64,5 +64,32 @@ public function InscrireCoureur($Randonneur)
         'REPASSURPLACE'=> $DEquipe['REPASSURPLACE']
     );
     return $this->db->insert('randonneur', $dataRand)&&$this->db->insert('membrede', $dataEquipe);
+}
+public function Desinscrire($noRandonneur)
+{
+    $this->db->delete('membrede', array("NOPARTICIPANT"=>$noRandonneur));
+}
+public function getRepas($noRandonneur)
+{
+    return $this->db->get_where('membrede',array("NOPARTICIPANT"=>$noRandonneur))->row(3);
+}
+public function ModifierPart($Participant)
+{
+    $this->db->where('noparticipant', $Participant['NOPARTICIPANT']);
+    return $this->db->update('participant', $Participant);
+}
+public function ModifierRand($Randonneur)
+{
+    $this->db->where('noparticipant', $Randonneur['NOPARTICIPANT']);
+    return $this->db->update('randonneur', $Randonneur);
+}
+public function ModifierRepas($DonneesRepas)
+{
+    $this->db->where('noparticipant', $DonneesRepas['NOPARTICIPANT']);
+    return $this->db->update('membrede', $DonneesRepas);
+}
+public function getTarifs($annee)
+{
+    return $this->db->get_where('annee',array("ANNEE"=>$annee))->row();
 }
 }

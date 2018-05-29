@@ -3,24 +3,17 @@
     border-left : 100px solid #555555;
     border-right : 100px solid #555555;
     padding: 20px;
-    min-height: 90%
-}
-.Footer
-{
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    width: 100%;
-    background-color: black;
-    height: 50px;
+    min-height: 93.5%
 }
 table
 {
-    width: 100%
+    width: 100%;
+    margin-top: 5%;
+    border: 1px solid black;
 }
 th
 {
-    width: 17%;
+    width: 10%;
     text-align: center;
     background-color: grey;
     padding: 10px;
@@ -29,4 +22,20 @@ td
 {
     text-align: center;
     padding: 10px;
+}
+h2
+{
+    text-align: center;
+}
+.oui
+{
+    position: absolute;
+    top: 30%;
+    left: 35%;
+}
+.non
+{
+    position: absolute;
+    top: 30%;
+    right: 35%;
 }

@@ -11,10 +11,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<?php if (!isset($this->session))
-{
-session_start();
-}?>
 <div class="row">
 <div class="col-sm-12" style="background-color: rgb(50,0,0); height: 51px">
 <nav class="navbar navbar-inverse navbar-fixed">
@@ -36,13 +32,13 @@ session_start();
           Profil
         </a>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="VoirProfil">Voir mon profil</a></li>
-          <li><a class="dropdown-item" href="ModifierProfil">Modifier mon profil</a></li>
-          <li><a class="dropdown-item" href="ModifierMDP">Modifier mot de passe</a></li>
-          <li><a class="dropdown-item" href="deconnexion">Me déconnecter</a></li>
+          <li><a class="dropdown-item" href="/Randotroll/index.php/Responsable/VoirProfil">Voir mon profil</a></li>
+          <li><a class="dropdown-item" href="/Randotroll/index.php/Responsable/ModifierProfil">Modifier mon profil</a></li>
+          <li><a class="dropdown-item" href="/Randotroll/index.php/Responsable/ModifierMDP">Modifier mot de passe</a></li>
+          <li><a class="dropdown-item" href="/Randotroll/index.php/Responsable/deconnexion">Me déconnecter</a></li>
         </ul>
         </li>
-        <li class="active"><a href="GererEquipe">Gérer mon équipe</a></li>';
+        <li class="active"><a href="/Randotroll/index.php/Responsable/GererEquipe">Gérer mon équipe</a></li>';
     }
     else
     {
